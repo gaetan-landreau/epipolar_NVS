@@ -1,0 +1,71 @@
+
+train: 
+  nbIteration: 100000
+  batchSize: 16
+  imageSize: 256
+  learningRate: 0.00005
+  gpuId: 0
+  hyperparameters: 
+    isPoseMatrix: false
+    singleModel: false
+    maxFrames: 10
+    sampling: {'strategy': 'gridSampling' , 
+               'param': 15}
+    useExtentedPose : True
+
+  resume: 
+    do: false
+    runId: ~
+    timeId: ''
+    iteration: 49185
+
+  losses:
+    spectral: true
+
+  data: 
+    dir: '/data/datasets/Synthia/'
+    name: 'synthia'
+    format: 'img'
+
+  model: 
+    type: 'ours2'
+    attention_strategy: 'h_attn'
+
+
+  logs: 
+    trainFolder: '/data/logs_epipolarNVS/logs_train/'
+    export_image_per: 1000
+    save_best_model_only: true
+    saveLossFrequency: 100
+    saveMetricsFrequency: 100
+  
+
+
+test: 
+  test_method: false
+  nbIteration: 100
+  batchSize: 8
+  datasetFormat: 'img'
+  imageSize: 256
+  gpuId: 1
+  hyperparameters: 
+    isPoseMatrix: false
+    singleModel: false
+    maxFrames: 10
+    sampling: {'strategy': 'gridSampling' , 
+               'param': 15}
+    useExtentedPose : False
+
+  data: 
+    dir: '/data/datasets/ShapeNet/'
+    name: 'chair'
+    format: 'img'
+  model: 
+    type: 'ours2'
+    attention_strategy: 'h_attn'
+    onSingleChannel: false
+    modelWeights: '/data/logs_epipolarNVS/logs_train/ours2CHAIR/modelWeights_best.h5'
+  
+  logs: 
+    testFolder: '/data/logs_epipolarNVS/inference_imgs/'
+

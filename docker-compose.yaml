@@ -1,0 +1,40 @@
+version: "3.5"
+
+services:
+
+  main:
+    image: author/tensorflow:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: tf_base
+
+    restart: always
+    shm_size: '2gb'
+    env_file:
+      - .env
+    command: "jupyter-lab --ip=0.0.0.0 --allow-root --no-browser"  
+    ports:
+      - 6849:8888 # For JupyterLab 
+      - 6800:6006 # For TensorBoard
+
+    working_dir: /root/
+
+    environment:
+      - AWS_PROFILE=rd
+      - PASSWORD=password
+    
+    volumes:
+
+    
+      # Main project 
+      - type: bind 
+        source: /home/author/epipolarNVS/
+        target: /root/epipolarNVS
+        
+      # Datadrive on Athena. 
+      - type: bind
+        source: /data1/author/
+        target: /data/
+
+  
